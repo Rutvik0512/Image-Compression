@@ -1,3 +1,4 @@
+from math import sqrt
 import numpy as np
 import cv2
 from skimage import metrics
@@ -125,7 +126,7 @@ def metric(df,original_img,compressed_img,imageName):
     # calulating psnr,mse and rmse
     psnr_skimg=metrics.peak_signal_noise_ratio(ref_img,comp_img)
     mse_skimg=metrics.mean_squared_error(ref_img,comp_img)
-    rmse_skimg=metrics.normalized_root_mse(ref_img,comp_img)
+    rmse_skimg=sqrt(mse_skimg)
 
     # calculating the compression_ratio
     compression_ratio = os.path.getsize(original_img) / os.path.getsize(compressed_img)

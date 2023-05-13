@@ -230,8 +230,7 @@ def main():
 
                     dc[block_index, k] = zz[0]
                     ac[block_index, :, k] = zz[1:]
-
-        block_index = 0
+                    
         # print("ENCODING_Outer")
 
         # Calling number of bits required on each DC_Y component.
