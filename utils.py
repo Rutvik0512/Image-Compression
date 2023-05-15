@@ -132,7 +132,8 @@ def metric(df,original_img,compressed_img,imageName):
     compression_ratio = os.path.getsize(original_img) / os.path.getsize(compressed_img)
 
     data = {'Image Name': [imageName],'PSNR': [psnr_skimg], 'MSE': [mse_skimg], 'RMSE': [rmse_skimg], 
-            'Compression Ratio': [compression_ratio]}
+            'Compression Ratio': [compression_ratio],'Original Size':[os.path.getsize(original_img)],
+            'Compressed Size':[os.path.getsize(compressed_img)]}
     
     df = df.append(pd.DataFrame(data), ignore_index=True)
 

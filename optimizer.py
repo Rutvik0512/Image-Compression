@@ -9,6 +9,7 @@ from PIL import Image
 from huffman import HuffmanTree
 import datetime
 import warnings
+import sys
 
 
 def img2arr(image):
@@ -123,7 +124,7 @@ def main():
     # tole = len(input_file)
 
     # creating a dataframe to store all the metrics
-    df = pd.DataFrame(columns=['Image Name','PSNR', 'MSE', 'RMSE','Compression Ratio'], dtype=np.float32)
+    df = pd.DataFrame(columns=['Image Name','PSNR', 'MSE', 'RMSE','Compression Ratio','Original Size','Compressed Size'], dtype=np.float32)
 
     for input_file in fileDir:
 
@@ -228,6 +229,12 @@ def main():
 
                     zz = block_to_zigzag(quant_matrix)
 
+                    if block_index == 0 and k==0:
+                        print("\n.............................................")
+                        print("DCT Co-effecient Matrix: \n",quant_matrix)
+                        print("\n.............................................")
+                        print("Zig zag Traversal: \n",zz)
+
                     dc[block_index, k] = zz[0]
                     ac[block_index, :, k] = zz[1:]
                     
@@ -250,6 +257,7 @@ def main():
                   'ac_c': H_AC_C.value_to_bitstring_table()}
 
         # print("B")
+        print("Encoded file size",(sys.getsizeof(tables)+sys.getsizeof(dc)+sys.getsizeof(ac))/1024,"kb")
         print("ENCODING DONE................")
         print("time passed : ", ((datetime.datetime.now() - start).seconds) / 60, " minutes")
         # write_to_file(output_file, dc, ac, blocks_count, tables)
@@ -309,7 +317,7 @@ def main():
         print()
 
     
-    df.set_index(['Image Name','PSNR','MSE','RMSE','Compression Ratio'], inplace=True)  # set PSNR as the index
+    df.set_index(['Image Name','PSNR','MSE','RMSE','Compression Ratio','Original Size','Compressed Size'], inplace=True)  # set PSNR as the index
     df.to_csv('Metrics.csv')
 
 if __name__ == "__main__":
